@@ -44,6 +44,9 @@ namespace Grabacr07.KanColleViewer
 
 			KanColleClient.Current.Proxy.Startup(AppSettings.Default.LocalProxyPort);
 			KanColleClient.Current.Proxy.UpstreamProxySettings = Settings.Current.ProxySettings;
+            KanColleClient.Current.Proxy.SendDb = Settings.Current.SendDb;
+            KanColleClient.Current.Proxy.DbAccessKey = Settings.Current.DbAccessKey;
+
 
 			ResourceService.Current.ChangeCulture(Settings.Current.Culture);
 			ThemeService.Current.Initialize(this, Theme.Dark, Accent.Purple);

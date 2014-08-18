@@ -370,6 +370,50 @@ namespace Grabacr07.KanColleViewer.Models
 
 		#endregion
 
+        #region SendDb 変更通知プロパティ
+
+        private bool _SendDb;
+
+        /// <summary>
+        /// 艦これ統計データベースへデータを送信するかどうかを取得または設定します。
+        /// </summary>
+        public bool SendDb
+        {
+            get { return this._SendDb; }
+            set
+            {
+                if (this._SendDb != value)
+                {
+                    this._SendDb = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region DbAccessKey 変更通知プロパティ
+
+        private string _DbAccessKey;
+
+        /// <summary>
+        /// 艦これ統計データベースのアクセスキーを取得または設定します。
+        /// </summary>
+        public string DbAccessKey
+        {
+            get { return this._DbAccessKey; }
+            set
+            {
+                if (this._DbAccessKey != value)
+                {
+                    this._DbAccessKey = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
 
 		public void Save()
 		{

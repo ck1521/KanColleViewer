@@ -111,5 +111,29 @@
 		<Rectangle Height="1"
 				   Style="{DynamicResource SeparatorRectangleStyleKey}" />
 
-	</StackPanel>
+        <TextBlock Text="{Binding Mode=OneWay, Source={x:Static properties:Resources.Settings_Db}}"
+					Style="{DynamicResource SettingsHeaderTextStyleKey}" />
+        <CheckBox x:Name="CheckboxSendDb"
+                	Content="{Binding Source={x:Static properties:Resources.Settings_Db_Enable}}"
+                	IsChecked="{Binding SendDb}" />
+        <StackPanel IsEnabled="{Binding IsChecked, ElementName=CheckboxSendDb}"
+                	Margin="15,6,0,6">
+            <Grid Margin="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0">
+                            <Run Text="{Binding Mode=OneWay, Source={x:Static properties:Resources.Settings_Db_AccessKey}}" />
+                            <Run Text=" "/>
+                            <Run Text=": " />
+                </TextBlock>
+                <metro:PromptTextBox Grid.Column="1"
+                			Text="{Binding DbAccessKey}"
+                			Prompt="{Binding Mode=OneWay, Source={x:Static properties:Resources.Settings_Db_AccessKey}}" />
+            </Grid>
+        </StackPanel>
+
+    </StackPanel>
 </UserControl>

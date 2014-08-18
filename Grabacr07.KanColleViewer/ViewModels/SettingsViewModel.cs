@@ -268,6 +268,44 @@ namespace Grabacr07.KanColleViewer.ViewModels
 		#endregion
 
 
+        #region SendDb 変更通知プロパティ
+
+        public string SendDb
+        {
+            get { return Settings.Current.SendDb.ToString(); }
+            set
+            {
+                bool booleanValue;
+                if (Boolean.TryParse(value, out booleanValue))
+                {
+                    Settings.Current.SendDb = booleanValue;
+                    KanColleClient.Current.Proxy.SendDb = booleanValue;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region DbAccessKey 変更通知プロパティ
+
+        public string DbAccessKey
+        {
+            get { return Settings.Current.DbAccessKey; }
+            set
+            {
+                if (Settings.Current.DbAccessKey != value)
+                {
+                    Settings.Current.DbAccessKey = value;
+                    KanColleClient.Current.Proxy.DbAccessKey = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+
 		public SettingsViewModel()
 		{
 			if (Helper.IsInDesignMode) return;

@@ -30,6 +30,16 @@ namespace Grabacr07.KanColleWrapper
 
 	    public IProxySettings UpstreamProxySettings { get; set; }
 
+        /// <summary>
+        /// 通信結果を艦これ統計データベースに送信するかどうかを取得または設定します。
+        /// </summary>
+        public bool SendDb { get; set; }
+
+        /// <summary>
+        /// 艦これ統計データベースのアクセスキーを取得または設定します。
+        /// </summary>
+        public string DbAccessKey { get; set; }
+
 
 		public KanColleProxy()
 		{
@@ -56,6 +66,64 @@ namespace Grabacr07.KanColleWrapper
 				})
 #endif
 			#endregion
+                #region .Do(send-database)
+.Do(s =>
+{
+    // 艦これ統計データベースへ送信が有効で、かつアクセスキーが入力されていた場合は送信
+    if (this.SendDb && !this.DbAccessKey.IsEmpty())
+    {
+        string[] urls = 
+						{
+							"api_port/port",
+							"api_get_member/kdock",
+							"api_get_member/ship2",
+							"api_get_member/ship3",
+							"api_req_hensei/change",
+							"api_req_kousyou/createship",
+							"api_req_kousyou/getship",
+							"api_req_kousyou/createitem",
+							"api_req_map/start",
+							"api_req_map/next",
+							"api_req_sortie/battle",
+							"api_req_battle_midnight/battle",
+							"api_req_battle_midnight/sp_midnight",
+							"api_req_sortie/night_to_day",
+							"api_req_sortie/battleresult",
+							"api_req_practice/battle",
+							"api_req_practice/battle_result",
+                            "api_req_combined_battle/battle",
+                            "api_req_combined_battle/airbattle",
+                            "api_req_combined_battle/midnight_battle",
+                            "api_req_combined_battle/battleresult",
+						};
+        foreach (var url in urls)
+        {
+            if (s.fullUrl.IndexOf(url) > 0)
+            {
+                using (System.Net.WebClient wc = new System.Net.WebClient())
+                {
+                    System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection();
+                    post.Add("token", this.DbAccessKey);
+                    post.Add("agent", "LZXNXVGPejgSnEXLH2ur");  // このクライアントのエージェントキー
+                    post.Add("url", s.fullUrl);
+                    string requestBody = System.Text.RegularExpressions.Regex.Replace(s.GetRequestBodyAsString(), @"&api(_|%5F)token=[0-9a-f]+|api(_|%5F)token=[0-9a-f]+&?", "");	// api_tokenを送信しないように削除
+                    post.Add("requestbody", requestBody);
+                    post.Add("responsebody", s.GetResponseBodyAsString());
+
+                    wc.UploadValuesAsync(new Uri("http://api.kancolle-db.net/2/"), post);
+#if DEBUG
+									Debug.WriteLine("==================================================");
+									Debug.WriteLine("Send to KanColle statistics database");
+									Debug.WriteLine(s.fullUrl);
+									Debug.WriteLine("==================================================");
+#endif
+                }
+                break;
+            }
+        }
+    }
+})
+            #endregion
 				.Publish();
 		}
 

@@ -480,4 +480,13 @@
   <data name="Fleets_ViewRange" xml:space="preserve">
     <value>索敵能力</value>
   </data>
+  <data name="Settings_Db" xml:space="preserve">
+    <value>データベース設定</value>
+  </data>
+  <data name="Settings_Db_AccessKey" xml:space="preserve">
+    <value>アクセスキー</value>
+  </data>
+  <data name="Settings_Db_Enable" xml:space="preserve">
+    <value>艦これ統計データベースへデータを送信する</value>
+  </data>
 </root>

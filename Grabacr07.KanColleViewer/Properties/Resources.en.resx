@@ -465,4 +465,13 @@
   <data name="Settings_Logging_Enable" xml:space="preserve">
     <value>Log drops and crafting results to file</value>
   </data>
+  <data name="Settings_Db" xml:space="preserve">
+    <value>Database Settings</value>
+  </data>
+  <data name="Settings_Db_AccessKey" xml:space="preserve">
+    <value>Access Key</value>
+  </data>
+  <data name="Settings_Db_Enable" xml:space="preserve">
+    <value>Send to KanColle statistics database</value>
+  </data>
 </root>
